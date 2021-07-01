@@ -15,3 +15,5 @@ yarn-error.log
 .vscode
 update_zip.zip
 theme
+public/frontendold
+resources/views/frontendold
