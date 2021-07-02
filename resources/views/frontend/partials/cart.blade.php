@@ -11,7 +11,7 @@
                 <div class="flex-grow-1 p-2">
                     1 item in bag
                 </div>
-                <a href="{{ route('cart') }}" class="btn btn-sm btn-o-secondary">View Bag</a>
+                <a href="" class="btn btn-sm btn-o-secondary">View Bag</a>
             </div>
             <div class="p-4 border-bottom-light">
                 <div class="text-dark">
@@ -20,13 +20,13 @@
                 <div class="mb-4 font-bold text-xl text-dark">
                     $170.00
                 </div>
-                <div class="text-center"><a href="{{ route('checkout') }}" class="btn btn-secondary">Proceed to Checkout</a></div>
+                <div class="text-center"><a href="" class="btn btn-secondary">Proceed to Checkout</a></div>
             </div>
             @for ($i = 0; $i < 2; $i++)
                 <div class="flex p-4 border-bottom-light">
                     <div class="mr-2">
                         <a href="#">
-                            <img src="{{ asset('images/product1.jpg')}}" width="100" alt="">
+                            <img src="{{ asset('frontend/images/product1.jpg')}}" width="100" alt="">
                         </a>
                     </div>
                     <div>

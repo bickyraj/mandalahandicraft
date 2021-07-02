@@ -18,21 +18,21 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartmenus@1.1.1/dist/css/sm-core-css.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
 
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/css/app.css') }}">
 
         <style>
             [x-cloak] { display:none; }
         </style>
     </head>
     <body x-data="{cartDrawerOpen:false}">
-        @include('partials/header')
+        @include('frontend.partials.header')
 
         <main>
             @yield('content')
         </main>
 
-        @include('partials/footer')
-        @include('partials/cart')
+        @include('frontend.partials.footer')
+        @include('frontend.partials.cart')
 
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/tiny-slider@2.9.3/dist/tiny-slider.min.js"></script>
@@ -40,7 +40,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.6.1/dist/gsap.min.js"></script>
-        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('frontend/js/app.js') }}"></script>
 
         @stack('scripts')
     </body>

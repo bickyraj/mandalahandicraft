@@ -1,22 +1,19 @@
 
 <div class="hero relative">
     <div class="hero-slider">
-        @php
-            $heroCount = 5
-        @endphp
-        @for ($i = 0; $i < $heroCount; $i++)
+        @forelse ($sliders as $slider)
         <div class="relative">
-            <img src="{{ asset('images/hero.jpg') }}" alt="" class="block">
+            <img src="{{ $slider->mobile_image() }}" alt="" class="block">
             <div class="slide-text flex justify-center items-center px-4 pt-4 pb-10 absolute text-white text-center">
                 <div>
                     <div class="text-line text-line-1 none lg:block mb-4 text-xl uppercase">
-                        Lorem ipsum dolor sit amet
+                        {{ $slider->sub_title }}
                     </div>
                     <div class="text-line text-line-2 mb-4 font-display text-3xl lg:text-6xl">
-                        Lorem ipsum dolor sit amet consectetur.
+                        {{ $slider->title }}
                     </div>
                     <div class="text-line text-line-3 none lg:block mb-8 text-xl">
-                        Lorem ipsum dolor sit amet.
+                        {{ $slider->offer_title }}
                     </div>
                     <a href="" class="btn btn-secondary">
                         Shop Now
@@ -24,7 +21,8 @@
                 </div>
             </div>
         </div>
-        @endfor
+        @empty
+        @endforelse
     </div>
     <div class="hero-slider-controls none md:block">
         <button class="mr-2 absolute">
@@ -39,7 +37,7 @@
         </button>
     </div>
     <div class="hero-slider-nav absolute flex justify-center">
-        @for ($i = 0; $i < $heroCount; $i++)
+        @for ($i = 0; $i < $sliders->count(); $i++)
             <button class="mr-4 w-2 h-2 bg-white"></button>
         @endfor
     </div>

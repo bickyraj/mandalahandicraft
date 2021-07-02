@@ -45,7 +45,7 @@ class HomeController extends BaseController
         $this->data['newProducts'] = $product->getNewProducts();
         $this->data['allProducts'] = $product->getAllProducts();
 
-        return view('home',$this->data);
+        return view('frontend.home',$this->data);
     }
 
 

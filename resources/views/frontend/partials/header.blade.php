@@ -7,8 +7,8 @@
                 <li class="mr-4"><a href="#">Track my order</a></li>
             </ul>
             <ul class="flex">
-                <li class="mr-4"><a href="{{ route('login') }}">Log in</a></li>
-                <li><a href="{{ route('register') }}">Register</a></li>
+                <li class="mr-4"><a href="">Log in</a></li>
+                <li><a href="">Register</a></li>
             </ul>
         </div>
     </div>{{-- Top --}}
@@ -16,8 +16,8 @@
     {{-- Header --}}
     <div class="container py-4">
         <div class="flex flex-wrap justify-between items-center">
-            <a href="{{ route('home') }}">
-                <x-logo class="mb-2"/>
+            <a href="">
+                @include('frontend.components.logo')
             </a>
             <div class="search">
                 <form action="">
@@ -54,7 +54,7 @@
                     </button>
                     <div x-cloak x-show="userDropdownOpen" @click.away="userDropdownOpen=false" class="user-menu absolute w-30 bg-white text-sm shadow-md " style="top:100%; right:-1rem;">
                         <ul>
-                            <li><a href="{{ route('orders') }}" class="block px-4 py-2 border-bottom-light">My Orders</a></li>
+                            <li><a href="" class="block px-4 py-2 border-bottom-light">My Orders</a></li>
                             <li><a href="#" class="block px-4 py-2 border-bottom-light">Logout</a></li>
                         </ul>
                     </div>

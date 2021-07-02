@@ -1,5 +1,3 @@
-@props(['title', 'products'])
-
 <div class="home-section-slider-section">
     <div class="mb-10 flex justify-between mb-4">
         <h2 class="font-display font-light text-4xl lg:text-8xl text-primary leading-none">{{ $title }}</h2>
@@ -19,41 +17,39 @@
     <div class="slider">
         @foreach ($products as $product)
             <div>
-                <x-productcard :product="$product"/>
+                @include('frontend.components.productcard', ['product' => $product])
             </div>
         @endforeach
     </div>
 </div>
 
-@once
-    @push('scripts') 
-        <script>
-            window.addEventListener('DOMContentLoaded', () => {
-                const homeSliderSections = document.querySelectorAll('.home-section-slider-section')
-                homeSliderSections.forEach(el => {
-                    const controlsContainer = el.querySelector('.controls')
-                    const slider = tns({
-                        container: el.querySelector('.slider'),
-                        mode: "carousel",
-                        gutter: 10,
-                        controlsContainer: controlsContainer,
-                        loop: false,
-                        items: 1,
-                        responsive: {
-                            568: {
-                                items: 2,
-                            },
-                            768:{
-                                items: 4,
-                                slideBy: "page",
-                            },
-                            992: {
-                                items: 5
-                            }
+@push('scripts')
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const homeSliderSections = document.querySelectorAll('.home-section-slider-section')
+            homeSliderSections.forEach(el => {
+                const controlsContainer = el.querySelector('.controls')
+                const slider = tns({
+                    container: el.querySelector('.slider'),
+                    mode: "carousel",
+                    gutter: 10,
+                    controlsContainer: controlsContainer,
+                    loop: false,
+                    items: 1,
+                    responsive: {
+                        568: {
+                            items: 2,
+                        },
+                        768:{
+                            items: 4,
+                            slideBy: "page",
+                        },
+                        992: {
+                            items: 5
                         }
-                    })
+                    }
                 })
             })
-        </script>
-    @endpush
-@endonce
+        })
+    </script>
+@endpush

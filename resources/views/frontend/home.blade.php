@@ -1,12 +1,12 @@
-@extends('layouts.app')
+@extends('frontend.layouts.app')
 
 @section('content')
 
-<x-heroslider />
+@include('frontend.components.heroslider')
 
 <section class="py-10 lg:py-30">
     <div class="container py-10">
-        <x-homesectionslider title="Best Sellers" :products="$products" />
+        @include('frontend.components.homesectionslider', ['title' => "Best Sellers", 'products' => $featuredProducts])
     </div>
 </section>
 
@@ -27,7 +27,7 @@
                 <a href="" class="btn btn-secondary">Read more</a>
             </div>
             <div>
-                <img src="{{ asset('images/artist.jpg') }}" alt="" class="block w-full h-full object-cover">
+                <img src="{{ asset('frontend/images/artist.jpg') }}" alt="" class="block w-full h-full object-cover">
             </div>
         </div>
     </div>
@@ -35,14 +35,14 @@
 
 <section class="py-10 lg:py-30">
     <div class="container py-10">
-        <x-homesectionslider title="Discounts & Offers" :products="$products" />
+        @include('frontend.components.homesectionslider', ['title' => 'Discounts & Offers', 'products' => $featuredProducts])
     </div>
 </section>
 
 <section class="mb-30">
     <div class="container container-max-md">
         <div class="grid lg:grid-cols-3 lg:gap-10 shadow-md rounded-lg px-10" style="background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);">
-            <div class="pt-10"><img src="{{ asset('images/delivery.png') }}" alt="" style="max-height:15rem"></div>
+            <div class="pt-10"><img src="{{ asset('frontend/images/delivery.png') }}" alt="" style="max-height:15rem"></div>
             <div class="lg:col-span-2 py-10 lg:py-20">
                 <h2 class="mb-10 font-display font-light text-4xl text-primary leading-none">Free Delivery</h2>
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab, sunt!</p>
@@ -61,10 +61,10 @@
             </p>
             <div class="mb-10 grid lg:grid-cols-2 gap-20">
                 @for ($i = 0; $i < 2; $i++)
-                    
+
                 <div class="grid grid-cols-4 gap-6">
                     <div>
-                        <img src="{{ asset('images/product1.jpg') }}" alt="" class="block">
+                        <img src="{{ asset('frontend/images/product1.jpg') }}" alt="" class="block">
                     </div>
                     <div class="col-span-3">
                         <h3 class="mb-2 font-bold text-lg text-dark">Excellent</h3>
@@ -82,7 +82,7 @@
                         <div class="italic">Lorem ipsum dolor </div>
                     </div>
                 </div>
-                
+
                 @endfor
             </div>
             <a href="#" class="btn btn-secondary">More reviews</a>

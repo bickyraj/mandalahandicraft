@@ -202,7 +202,7 @@
 @push('script')
 <script src="{{ asset('plugins/jcrop/jquery.Jcrop.min.js') }}"></script>
 <script>
-    var aspRatio = 2/1;
+    var aspRatio = 5/2;
     // convert bytes into friendly format
     function bytesToSize(bytes) {
         var sizes = ['Bytes', 'KB', 'MB'];

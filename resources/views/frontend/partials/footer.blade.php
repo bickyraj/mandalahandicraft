@@ -1,6 +1,6 @@
 <section class="py-30">
     <div class="container">
-        <div  style="background: center / cover url({{ asset('images/paintbrush.jpg') }})">
+        <div  style="background: center / cover url({{ asset('frontend/images/paintbrush.jpg') }})">
             <div class="p-10 lg:px-20 text-white">
                 <h2 class="mb-10 font-display text-4xl lg:text-6xl leading-none">Subscribe to our<br>
                     <span class="lg:text-8xl">Newsletter</span></h2>
@@ -29,8 +29,8 @@
                 <div>
                     <h2 class="mb-4 font-bold uppercase">About</h2>
                     <ul>
-                        <li class="mb-2"><a href="{{ route('about') }}">About Us</a></li>
-                        <li class="mb-2"><a href="{{ route('contact') }}">Contact Us</a></li>
+                        <li class="mb-2"><a href="">About Us</a></li>
+                        <li class="mb-2"><a href="">Contact Us</a></li>
                         <li class="mb-2"><a href="#">Privacy Policy</a></li>
                         <li class="mb-2"><a href="#">Site Map</a></li>
                     </ul>
@@ -111,19 +111,19 @@
             <div>
                 <h3 class="mb-4 font-bold text-dark">Payment</h3>
                 <ul class="flex">
-                    <li class=""><img src="{{ asset('images/googlewallet.png') }}" class="w-10 h-10" alt=""></li>
-                    <li class=""><img src="{{ asset('images/visa.png') }}" class="w-10 h-10" alt=""></li>
+                    <li class=""><img src="{{ asset('frontend/images/googlewallet.png') }}" class="w-10 h-10" alt=""></li>
+                    <li class=""><img src="{{ asset('frontend/images/visa.png') }}" class="w-10 h-10" alt=""></li>
                 </ul>
             </div>
             <div>
                 <h3 class="mb-4 font-bold text-dark">Follow us online</h3>
                 <ul class="flex">
-                    <li class=""><img src="{{ asset('images/facebook.png') }}" class="mr-6 w-8 h-8" alt=""></li>
-                    <li class=""><img src="{{ asset('images/twitter.png') }}" class="mr-6 w-8 h-8" alt=""></li>
-                    <li class=""><img src="{{ asset('images/instagram.png') }}" class="mr-6 w-8 h-8" alt=""></li>
-                    <li class=""><img src="{{ asset('images/youtube.png') }}" class="mr-6 w-8 h-8" alt=""></li>
-                    <li class=""><img src="{{ asset('images/pinterest.png') }}" class="mr-6 w-8 h-8" alt=""></li>
-                    <li class=""><img src="{{ asset('images/linkedin.png') }}" class="mr-6 w-8 h-8" alt=""></li>
+                    <li class=""><img src="{{ asset('frontend/images/facebook.png') }}" class="mr-6 w-8 h-8" alt=""></li>
+                    <li class=""><img src="{{ asset('frontend/images/twitter.png') }}" class="mr-6 w-8 h-8" alt=""></li>
+                    <li class=""><img src="{{ asset('frontend/images/instagram.png') }}" class="mr-6 w-8 h-8" alt=""></li>
+                    <li class=""><img src="{{ asset('frontend/images/youtube.png') }}" class="mr-6 w-8 h-8" alt=""></li>
+                    <li class=""><img src="{{ asset('frontend/images/pinterest.png') }}" class="mr-6 w-8 h-8" alt=""></li>
+                    <li class=""><img src="{{ asset('frontend/images/linkedin.png') }}" class="mr-6 w-8 h-8" alt=""></li>
                 </ul>
             </div>
             <div>
