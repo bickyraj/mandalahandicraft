@@ -20,7 +20,7 @@ class ProductController extends BaseController
             ->with('vendor')
             ->where('slug', $slug)->firstOrFail();
 
-        return view('frontend.products.product_detail',$this->data);
+        return view('frontend.products.show',$this->data);
     }
 
     /**
