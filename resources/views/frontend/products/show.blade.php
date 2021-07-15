@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('frontend.layouts.app')
 
 @section('content')
 
@@ -6,71 +6,54 @@
         <article class="grid lg:grid-cols-3 gap-20">
             <div>
                 <div class="image-area">
-                    <img class="mb-2 block image-trigger border-light" src="{{ asset('images/product2a.jpg')}}" data-zoom="{{ asset('images/product2a.jpg')}}" style="cursor: zoom-in">
+                    <img class="mb-2 block image-trigger border-light" src="{{ $product->images[0]->modified_image() }}" data-zoom="{{ $product->images[0]->modified_image() }}" style="cursor: zoom-in">
                 </div>
                 {{-- Controls --}}
                 <div>
                     <ul class="showcase-images-nav flex flex-wrap">
-                        <li>
-                            <button data-targetsrc="{{ asset('images/product2a.jpg') }}" class="active">
-                                <img src="{{ asset('images/product2a.jpg') }}" alt="">
-                            </button>
-                        </li>
-                        <li>
-                            <button data-targetsrc="{{ asset('images/product2b.jpg') }}">
-                                <img src="{{ asset('images/product2b.jpg') }}" alt="">
-                            </button>
-                        </li>
-                        <li>
-                            <button data-targetsrc="{{ asset('images/product2c.jpg') }}">
-                                <img src="{{ asset('images/product2c.jpg') }}" alt="">
-                            </button>
-                        </li>
-                        <li>
-                            <button data-targetsrc="{{ asset('images/product2a.jpg') }}">
-                                <img src="{{ asset('images/product2a.jpg') }}" alt="">
-                            </button>
-                        </li>
-                        <li>
-                            <button data-targetsrc="{{ asset('images/product2b.jpg') }}">
-                                <img src="{{ asset('images/product2b.jpg') }}" alt="">
-                            </button>
-                        </li>
-                        <li>
-                            <button data-targetsrc="{{ asset('images/product2c.jpg') }}">
-                                <img src="{{ asset('images/product2c.jpg') }}" alt="">
-                            </button>
-                        </li>
+                        @if($product->product_type == 0)
+                            @if(isset($product->images) && $product->images->count())
+                                @foreach($product->images as $key => $image)
+                                    <li>
+                                        <button data-targetsrc="{{ $image->modified_image() }}" class="{{ ($key == 0)?'active':'' }}">
+                                            <img src="{{ $image->modified_image() }}" alt="">
+                                        </button>
+                                    </li>
+                                @endforeach
+                            @endif
+                        @endif
                     </ul>
                 </div>
             </div>
             <div class="detail lg:col-span-2 grid lg:grid-cols-3 gap-10 relative">
                 <section class="lg:col-span-2">
-                    <h1 class="mb-4 font-display text-dark text-4xl">Green Tara Mudra</h1>
-                    <div class="mb-10">
-                        @for ($j = 0; $j < 5; $j++)
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-star-fill text-secondary" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        @endfor
-                        <span class="ml-6 text-sm italic text-light">10 ratings</span>
-                    </div>
+                    <h1 class="mb-4 font-display text-dark text-4xl">{{ucwords($product->title)}}</h1>
+                    @if ($product->rating() > 0)
+                        <div class="mb-10">
+                            @for ($j = 0; $j < $product->rating(); $j++)
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-star-fill text-secondary" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                            @endfor
+                            <span class="ml-6 text-sm italic text-light">10 ratings</span>
+                        </div>
+                    @endif
                     <div class="mb-4">
                         <h2 class="mb-2 font-bold text-xl text-dark">Specifications</h2>
                         <ul class="mb-6">
                             <li class="mb-2">
-                                <span class="font-bold mr-10">Dimensions:</span>  10cm x 10cm x 35cm
+                                <span class="font-bold mr-10">Dimensions:</span>  {{ $product->dimensions }}
                             </li>
                             <li class="mb-2">
-                                <span class="font-bold mr-10">Weight:</span> 10kg
+                                <span class="font-bold mr-10">Weight:</span> {{ $product->weight }}
                             </li>
                             <li class="mb-2">
-                                <span class="font-bold mr-10">Materials:</span> Brass
+                                <span class="font-bold mr-10">Materials:</span> {{ $product->materials }}
                             </li>
                         </ul>
                     </div>
                     <h2 class="visually-hidden">Price</h2>
-                    <div class="mb-6 font-bold text-3xl text-dark">$XXX.XX</div>
+                    <div class="mb-6 font-bold text-3xl text-dark">Rs. {{ number_format($product->user_price) }}</div>
 
                     <h2 class="mb-2 text-dark">Select Quantity</h2>
                     <div class="flex mb-6">
@@ -108,9 +91,9 @@
             <a href="#details" class="detail-link flex-grow-1 mr-1 px-6 py-4 font-bold text-center bg-light text-dark">
                 Details
             </a>
-            <a href="#reviews" class="detail-link flex-grow-1 mr-1 px-6 py-4 font-bold text-center bg-light text-dark">
+            {{-- <a href="#reviews" class="detail-link flex-grow-1 mr-1 px-6 py-4 font-bold text-center bg-light text-dark">
                 Reviews
-            </a>
+            </a> --}}
             <a href="#faqs" class="detail-link flex-grow-1 px-6 py-4 font-bold text-center bg-light text-dark">
                 FAQs
             </a>
@@ -118,17 +101,10 @@
         <div class="editor px-10 border-light">
             <div id="details" class="detail-section pt-10">
                 <h2>Features</h2>
-                <ul>
-                    <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam obcaecati voluptates ad, nisi rerum animi.</li>
-                    <li>Mollitia, dolores repellendus? Non cupiditate necessitatibus commodi autem facere ut ipsum veritatis repudiandae adipisci vero?</li>
-                    <li>Nihil dolorum maxime aspernatur saepe. Architecto, consequatur? Officia, modi eveniet. Beatae dicta asperiores nihil fuga.</li>
-                    <li>Explicabo perspiciatis quaerat, nisi rerum quisquam illum nostrum praesentium voluptatem corrupti, totam consequuntur accusantium natus.</li>
-                    <li>Voluptatem cupiditate reprehenderit autem incidunt, voluptatum tempora nobis dignissimos repudiandae quaerat libero odio nesciunt magni.</li>
-                </ul>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta maxime recusandae corrupti laborum neque magni, dolores eveniet ipsum necessitatibus error.</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus nisi rem iusto minus cumque hic quam labore aliquam similique, doloribus ducimus necessitatibus explicabo libero, in praesentium, temporibus quas. Iure, cumque et perferendis suscipit dolore tenetur ipsam explicabo placeat quo facere doloribus sed molestiae numquam doloremque ducimus laborum voluptate, at magni?</p>
+                {!! $product->description !!}
             </div>
-            <div id="reviews" class="detail-section pt-10">
+            {{-- REVIEWS --}}
+            {{-- <div id="reviews" class="detail-section pt-10">
                 <h2>Reviews</h2>
                 <div class="grid grid-cols-3">
                     <div>
@@ -159,17 +135,16 @@
                         </div>
                     @endfor
                 </div>
-            </div>
+            </div> --}}
             <div id="faqs" class="detail-section mb-10 pt-10">
+                @if ($product->has('faqs'))
                 <h2>FAQs</h2>
-                <h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, ipsum?</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat odit ut eum, aperiam, ducimus doloremque culpa sed atque dolorum maxime ipsum quis cumque esse est magnam voluptates, reiciendis nulla eaque.</p>
-                <h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, ipsum?</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat odit ut eum, aperiam, ducimus doloremque culpa sed atque dolorum maxime ipsum quis cumque esse est magnam voluptates, reiciendis nulla eaque.</p>
-                <h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, ipsum?</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat odit ut eum, aperiam, ducimus doloremque culpa sed atque dolorum maxime ipsum quis cumque esse est magnam voluptates, reiciendis nulla eaque.</p>
-                <h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, ipsum?</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat odit ut eum, aperiam, ducimus doloremque culpa sed atque dolorum maxime ipsum quis cumque esse est magnam voluptates, reiciendis nulla eaque.</p>
+                @forelse ($product->faqs as $faq)
+                    <h3>{{ $faq->name }}</h3>
+                    <p>{{ $faq->description }}</p>
+                @empty
+                @endforelse
+                @endif
             </div>
         </div>
     </section>

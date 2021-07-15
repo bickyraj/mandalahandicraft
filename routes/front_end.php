@@ -1,4 +1,5 @@
 <?php
+
 Route::get('/products/{slug}', 'ProductController@show')->name('frontend.products.detail');
 Route::get('search',['as'=>'search','uses'=>'HomeController@search']);
 Route::get('faqs',['as'=>'faq','uses'=>'HomeController@faq']);
@@ -22,8 +23,6 @@ Route::get('/member/profile', function () {
     dd('test');
 })->middleware('verified');
 
-
-
 Route::middleware('frontAuth')->group(function () {
 Route::get('checkout', 'CartController@checkout')->name('checkout');
 Route::post('process-payment', 'PaymentController@process')->name('payment.process');
@@ -38,11 +37,6 @@ Route::post('account/update',['as'=>'account.update','uses'=>'UserAccountControl
 Route::get('add-to-wish/{productId}', ['as'=>'add.wish','uses'=>'UserAccountController@addToWishList']);
 Route::post('review', ['as'=>'review.store','uses'=>'UserAccountController@storeReview']);
 });
-
-
-
-
-
 
 // social login starts
 Route::get('login/facebook', 'SocialLoginController@redirectToFacebook')->name('facebookLogin');

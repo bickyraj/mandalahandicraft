@@ -152,7 +152,60 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
+                                        {{--user price--}}
+                                        <div class="form-group label-floating">
+                                            <label class="" for="price">Dimensions
+                                                <small></small>
+                                            </label>
+                                            <div class="form-line">
+                                                <input type="text"
+                                                       name="dimensions"
+                                                       id="dimensions"
+                                                       class="form-control"
+                                                       value="{{$edit?$product->dimensions:old('dimensions')}}"
+                                                       required="true">
+                                            </div>
+                                        </div>
+                                        {{--./user price--}}
+                                    </div>
 
+                                    <div class="col-md-6">
+                                        {{--whole seller weight--}}
+                                        <div class="form-group label-floating">
+                                            <label class="" for="weight">Weight
+
+                                            </label>
+                                            <div class="form-line">
+                                                <input type="text"
+                                                       name="weight"
+                                                       id="weight"
+                                                       class="form-control"
+                                                       value="{{$edit?$product->weight:old('weight')}}"
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        {{--whole seller materials--}}
+                                        <div class="form-group label-floating">
+                                            <label class="" for="materials">Materials
+
+                                            </label>
+                                            <div class="form-line">
+                                                <input type="text"
+                                                       name="materials"
+                                                       id="materials"
+                                                       class="form-control"
+                                                       value="{{$edit?$product->materials:old('materials')}}"
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
                                         {{--user price--}}
                                         <div class="form-group label-floating">
                                             <label class="" for="price">User Price
@@ -171,7 +224,6 @@
                                     </div>
 
                                     <div class="col-md-6">
-
                                         {{--whole seller price--}}
                                         <div class="form-group label-floating">
                                             <label class="" for="price">Whole Seller Price
@@ -268,7 +320,9 @@
                                     <div class="material-icons select-drop-down-arrow">keyboard_arrow_down</div>
                                 </div>
                                 {{--./category_id--}}
+                                <div id="product-variants">
 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -686,7 +740,7 @@
                                                         <div class="checkbox checkbox-inline">
                                                             <label>
                                                                 <input class="product-label-input" type="checkbox" name="popular"
-                                                                       value="1" {{ $edit?($product->popular?'checked':''):'' }}> Popular
+                                                                       value="1" {{ $edit?($product->popular?'checked':''):'' }}> Best Seller
                                                             </label>
                                                         </div>
                                                     </div>
@@ -704,7 +758,7 @@
                                                         <div class="checkbox checkbox-inline">
                                                             <label>
                                                                 <input class="product-label-input" type="checkbox" name="sale"
-                                                                       value="1" {{ $edit?($product->sale?'checked':''):'' }}> Sale
+                                                                       value="1" {{ $edit?($product->sale?'checked':''):'' }}> Dsicount & Offers
                                                             </label>
                                                         </div>
                                                     </div>
@@ -849,9 +903,29 @@
             });
 
             $('#category_id').on("change", function () {
+                // get category attributes
+                let id = $(this).children("option:selected").val();
+                let attrs = getCategoryAttributes(id).then((res) => {
+                    let container = $("#product-variants");
+                    let inputs = "";
+                    $.each(res.data, function(i, v) {
+                        inputs += '<div class="form-group">\
+                            <label>'+v.name+'</label>\
+                            <input name="'+v.id+'" />\
+                        </div>';
+                    });
+
+                    container.html(inputs);
+                });
                 $('#product_validation').valid();
             });
 
+            async function getCategoryAttributes(categoryId) {
+                let url = '{!! route("admin.category.attributes", [":CATEGORY_ID"]) !!}';
+                url = url.replace(':CATEGORY_ID', categoryId);
+                let result = await $.get(url);
+                return result;
+            }
 
             $("#images").fileinput({
                 'showUpload': false,

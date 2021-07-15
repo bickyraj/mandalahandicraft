@@ -1,58 +1,44 @@
 @extends('admin.layouts.app')
 
-@push('css')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-@endpush
-@section('title', 'Add New Category')
+@section('title', 'Add New Attribute')
 
 @section('content')
 
-  <form action="{{$edit?route('category.update',$model):route('category.store')}}"
+  <form action="{{$edit?route('attribute.update',$model):route('attribute.store')}}"
         method="post"
         enctype="multipart/form-data"
-        id="category_validation">
+        id="attribute_validation">
     {{csrf_field()}}
     {{$edit?method_field('PUT'):''}}
     <div class="card">
 
       <div class="card-header card-header-text" data-background-color="green">
-        <h4 class="card-title">{{$edit?'Edit':'Add a New'}} Category</h4>
+        <h4 class="card-title">{{$edit?'Edit':'Add a New'}} Attribute</h4>
       </div>
 
       <div class="card-content">
 
         <div class="asdh-add_multiple_container">
-          {{--file--}}
-          {{-- <div class="form-group">
-            <label for="image">Image</label>
-            <input type="text" class="form-control" readonly value="{{$edit?$model->getOriginal('image'):''}}">
-            <input type="file" class="form-control" name="{{$edit?'image':'image[]'}}" accept="image/*">
-          </div> --}}
-          {{--./file--}}
-
           {{--name--}}
           <div class="form-group">
-            <label class="" for="name">Category Name</label>
+            <label class="" for="name">Attribute Name</label>
             <input type="text"
                    class="form-control"
                    id="name"
-                   name="name"
+                   name="{{$edit?'name':'name[]'}}"
                    value="{{$edit?$model->name:''}}"
                    required="true"/>
-          </div>
-          <div class="form-group">
-            <label class="" for="name">Attributes</label>
-            <select class="js-example-basic-multiple form-control" name="attributes[]" multiple="multiple">
-                @foreach ($attributes as $attribute)
-                <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
-                @endforeach
-            </select>
+            @if(!$edit)
+              <span class="asdh-add_remove_multiple add" title="Add">
+                <i class="material-icons">add_circle</i>
+              </span>
+            @endif
           </div>
         </div>
 
         {{--submit--}}
         <div class="form-footer text-right">
-           <a href="{{route('category.index')}}" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Back</a>
+           <a href="{{route('attribute.index')}}" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Back</a>
           <button type="submit" class="btn btn-success btn-fill btn-prevent-multiple-submit2"><i class="fa fa-save"></i> {{$edit?'Update':'Save'}}</button>
         </div>
 
@@ -63,13 +49,11 @@
 @endsection
 
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script>
     $(document).ready(function () {
-    $('.js-example-basic-multiple').select2();
       $('#name').focus();
 
-      $('#category_validation').validate({
+      $('#attribute_validation').validate({
               submitHandler: function(form) {
               var $buttonToDisable = $('.btn-prevent-multiple-submit2');
               $buttonToDisable.prop('disabled', true);
@@ -84,14 +68,8 @@
       /*Add and remove multiple fields starts*/
       var html = '', multipleAddLimit = 1;
 
-      html += '<div>';
-      html += '<div class="form-group" style="margin-top: 30px;">';
-      html += ' <input type="text" class="form-control" readonly placeholder="Other Image">';
-      html += ' <input type="file" class="form-control" name="image[]" accept="image/*" />';
-      html += '</div>';
-
       html += '<div class="form-group asdh-remove_margin_padding_from_add_remove_multiple">';
-      html += ' <input type="text" class="form-control" name="name[]" placeholder="Other Category Name" required="true" />';
+      html += ' <input type="text" class="form-control" name="name[]" placeholder="Other Attribute Name" required="true" />';
       html += ' <span class="asdh-add_remove_multiple remove" title="Remove"><i class="material-icons">delete</i></span>';
       html += '</div>';
       html += '</div>';
@@ -103,7 +81,7 @@
           $($appendTo).append(html);
           multipleAddLimit++;
         } else {
-          alert('Limit reached, you can only add 5 category at a time! ')
+          alert('Limit reached, you can only add 5 attribute at a time! ')
         }
 
         $('.asdh-add_remove_multiple.remove').on('click', function (e) {

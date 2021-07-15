@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Attribute;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Category;
+use App\CategoryAttribute;
+use App\Services\SlugService;
 use Illuminate\Validation\Rule;
 
 
@@ -13,7 +16,8 @@ class CategoryController extends BaseController
 
     private $image_prefix = 'category';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->data['routeType'] = 'category';
     }
@@ -28,7 +32,7 @@ class CategoryController extends BaseController
     {
         $this->data['categories'] = Category::ParentCategories();
 
-         return view('admin.category.view', $this->data);
+        return view('admin.category.view', $this->data);
     }
 
     /**
@@ -38,8 +42,9 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        $this->data['edit']=false;
-        return view('admin.category.create',$this->data);
+        $this->data['edit'] = false;
+        $this->data['attributes'] = Attribute::where('status', 1)->get();
+        return view('admin.category.create', $this->data);
     }
 
     /**
@@ -50,37 +55,20 @@ class CategoryController extends BaseController
      */
     public function store(Request $request)
     {
-        $request->validate(['name.*' => 'required|string|max:255']);
-        $presentCategories = [];
-        $image_path_from_public='category';
-        foreach($request->name as $k=>$v)
-        {
-           $category = Category::whereName($v)->first();
-           $presentCategories[] = $category;
-           if ( isset($request->image[$k]) && ! is_null($request->image[$k]))
-           {
-            $image_name[$k]=upload_image($request->image[$k], $this->image_prefix,$image_path_from_public);
-             $this->fitImage(32,32,$image_name[$k],$image_path_from_public,$image_path_from_public.'/modified');
-
-           }
-           
-           if (!$category) {
-            Category::create([
-                'name'  => $v,
-                'slug'  => bsb_str_slug($v),
-                'image' => isset($image_name[$k])?$image_name[$k]:null,
-            ]);
-           }
-       }
-
-
-
-       $filteredCategories = array_pluck(array_filter($presentCategories), 'name');//retrives only name attribute from array
-       if (count($filteredCategories) > 0) {
-        return back()->with('failure_message', '<b>' . implode(', ', $filteredCategories) . '</b> categories were present before. So, they werent added.');
-       }
-
-       return redirect()->route($this->data['routeType'] . '.index')->with('success_message', 'Category successfully added.');
+        $request->validate(['name' => 'required|string|max:255']);
+        try {
+            $category = new Category;
+            $category->name = $request->name;
+            $category->slug = SlugService::generate('Category', $request->name);
+            if ($category->save()) {
+                foreach ($request->input('attributes') as $attr) {
+                    $category->attributes()->attach($attr);
+                }
+            }
+        } catch (\Throwable $th) {
+            \Log::error($th->getMessage());
+        }
+        return redirect()->route($this->data['routeType'] . '.index')->with('success_message', 'Category successfully added.');
     }
 
     /**
@@ -97,7 +85,6 @@ class CategoryController extends BaseController
         $this->data['sub_categories'] = $category->sub_categories;
 
         return view('admin.category.show', $this->data);
-        
     }
 
     /**
@@ -110,6 +97,7 @@ class CategoryController extends BaseController
     {
         $this->data['edit']     = true;
         $this->data['model'] = $category;
+        $this->data['attributes'] = Attribute::where('status', 1)->get();
         return view('admin.category.create', $this->data);
     }
 
@@ -122,31 +110,26 @@ class CategoryController extends BaseController
      */
     public function update(Request $request, Category $category)
     {
-        $this->validate($request,[
-            'name'=>['required','string','max:100',
-            Rule::unique('categories')->ignore($category->id)
+        $this->validate($request, [
+            'name' => [
+                'required', 'string', 'max:100',
+                Rule::unique('categories')->ignore($category->id)
             ],
+            'attributes.*' => 'required'
 
         ]);
+        $category->slug = "";
+        $category->save();
+        $category->name = $request->name;
+        $category->slug = SlugService::generate('Category', $request->name);
+        if ($category->save()) {
+            $category->attributes()->detach();
+            foreach ($request->input('attributes') as $attr) {
+                $category->attributes()->attach($attr);
+            }
+        }
 
-         $image_path_from_public='category';
-         $image_name=null;
-
-         if (!is_null($request->image))
-         {
-          $category->delete_image('image','category');
-          $image_name=upload_image($request->image, $this->image_prefix,$image_path_from_public);
-           $this->fitImage(32,32,$image_name,$image_path_from_public,$image_path_from_public.'/modified');
-
-         }
-
-
-        return $category->update([
-            'name'  => $request->input('name'),
-            'image' => $image_name,
-        ])
-            ? back()->with('success_message', 'Category successfully updated.')
-            : back()->with('failure_message', 'Category could not be updated. Please try again later.');
+        return back()->with('success_message', 'Category successfully updated.');
     }
 
     /**
@@ -158,14 +141,13 @@ class CategoryController extends BaseController
     public function destroy(Category $category)
     {
         if ($category->delete()) {
-            $category->delete_image('image','category');
-            if($category->has_children())
-            {
-                findAndDeleteChild($category->sub_categories);//calling recusive function 
+            $category->delete_image('image', 'category');
+            if ($category->has_children()) {
+                findAndDeleteChild($category->sub_categories); //calling recusive function
 
 
             }
-             
+
             return back()->with('success_message', 'Category successfully deleted.');
         }
 
@@ -174,26 +156,40 @@ class CategoryController extends BaseController
 
 
 
-    public function show_on_menu(Category $category) {
+    public function show_on_menu(Category $category)
+    {
         $category->show_on_menu = $category->show_on_menu ? 0 : 1;
         $category->save();
 
         return response()->json(['message' => $category->name . ($category->show_on_menu ? ' shown in menu' : ' removed from menu')]);
     }
 
-    public function make_exclusive(Category $category) {
+    public function make_exclusive(Category $category)
+    {
         $category->exclusive = $category->exclusive ? 0 : 1;
         $category->save();
 
         return response()->json(['message' => $category->name . ($category->exclusive ? ' made exclusive' : ' removed from exclusive')]);
     }
 
-    public function set_priority(Category $category) {
+    public function set_priority(Category $category)
+    {
         $priority = \request()->priority;
 
         $category->priority = $priority;
         $category->save();
 
         return response()->json(['message' => $category->name . ' priority changed to ' . $priority]);
+    }
+
+    public function getAttributes($categoryId)
+    {
+        $category = Category::find($categoryId);
+        $attrs = $category->attributes;
+        return response()->json([
+            'data' => $attrs,
+            'message' => 'Data fetched.',
+            'success' => true
+        ]);
     }
 }

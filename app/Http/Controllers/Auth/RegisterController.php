@@ -54,8 +54,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'first_name' => ['required', 'string', 'max:50'],
-            'last_name' => ['required', 'string', 'max:50'],
+            'name' => ['required', 'string', 'max:50'],
+            // 'first_name' => ['required', 'string', 'max:50'],
+            // 'last_name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
             'password' => ['required', 'string', 'min:5', 'confirmed'],
         ]);
@@ -74,12 +75,12 @@ class RegisterController extends Controller
 
             $normalRole        = Role::where('name', 'normal')->first();
             $user              = new User;
-            $user->name        = $data['first_name'] . ' ' . $data['last_name'];
+            $user->name        = $data['name'];
             $user->email       = $data['email'];
             $user->password    = bcrypt($data['password']);
             $user->email_token = str_random(10);
-            $user->phone =       $data['phone'];
-            $user->address = $data['address'];
+            // $user->phone =       $data['phone'];
+            // $user->address = $data['address'];
             $user->save();
             $user->roles()->attach($normalRole);
             Mail::to($user)->send(new VerifyEmail($user));
