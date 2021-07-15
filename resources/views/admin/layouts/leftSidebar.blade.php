@@ -354,8 +354,14 @@
   </li>
   {{--./faq--}}
 
-
-
+  {{--site-settings--}}
+  <li @if(request()->is('admin/site-settings*')) class="active" @endif>
+    <a href="{{route('admin.site_settings.general')}}">
+      <i class="material-icons">layers</i>
+      <p>{{ ucfirst('site settings') }}</p>
+    </a>
+  </li>
+  {{--./site-settings--}}
 
   @endif
 

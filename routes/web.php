@@ -57,6 +57,10 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin','middleware'=>['auth','a
 		Route::resource('slider', 'SliderController');
 		Route::resource('color','ColorController');
 
+        // site settings
+        Route::get('/site-settings', 'SiteSettingController@general')->name('admin.site_settings.general');
+        Route::post('/site-settings/home/store', 'SiteSettingController@homePageStore')->name('admin.site_settings.home.store');
+
 		// admin ajax
 		Route::prefix('ajax')->group(function () {
 			Route::get('show-or-hide-sub-category', 'CategoryController@show_or_hide_sub_category')->name('ajax.sub-category.show-hide');

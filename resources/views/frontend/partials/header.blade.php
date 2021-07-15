@@ -7,7 +7,7 @@
                 <li class="mr-4"><a href="#">Track my order</a></li>
             </ul>
             <ul class="flex">
-                <li class="mr-4"><a href="">Log in</a></li>
+                <li class="mr-4"><a href="{{ route('login') }}">Log in</a></li>
                 <li><a href="{{route('register')}}">Register</a></li>
             </ul>
         </div>
@@ -24,6 +24,11 @@
                     <div class="header-search flex">
                         <select name="" id="" class="none lg:block px-8 py-4 border-light">
                             <option selected disabled>Categories</option>
+                            @forelse ($all_categories as $categ)
+                                <option value="{{ $categ->slug }}">{{ $categ->name }}</option>
+                            @empty
+
+                            @endforelse
                         </select>
                         <input type="text" class="p-4 border-light" placeholder="What are you looking for?">
                         <button type="submit" class="px-8 py-4 border-light">

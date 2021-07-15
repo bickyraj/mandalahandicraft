@@ -15,19 +15,16 @@
         <div class="grid lg:grid-cols-3 lg:gap-20 bg-light">
             <div class="lg:col-span-2 p-10 lg:p-20 font-light text-xl text-dark">
 
-                <h2 class="mb-10 font-display font-light text-4xl lg:text-8xl text-primary leading-none">Lorem ipsum dolor sit.</h2>
+                <h2 class="mb-10 font-display font-light text-4xl lg:text-8xl text-primary leading-none">{{ Setting::get('homePage')['block1']['title']??'' }}</h2>
                 <div class="mb-6 editor">
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae mollitia architecto doloremque at adipisci ex enim veniam ipsam quo dolore sed magnam libero accusamus temporibus pariatur magni quibusdam, deleniti praesentium quaerat! Sit nemo voluptatibus in sed ut expedita rem, doloremque molestiae eveniet deserunt nulla et aspernatur quod accusamus pariatur eaque quasi nisi repellendus illum perferendis inventore enim eum laborum? Hic.
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur repellendus officiis, quia laudantium eum recusandae at ad in ex natus?
+                        {{ Setting::get('homePage')['block1']['content']??'' }}
                     </p>
                 </div>
                 <a href="" class="btn btn-secondary">Read more</a>
             </div>
             <div>
-                <img src="{{ asset('frontend/images/artist.jpg') }}" alt="" class="block w-full h-full object-cover">
+                <img src="{{ asset('uploads/site-settings/modified') . '/' . Setting::get('homePage')['block1']['image'] }}" alt="" class="block w-full h-full object-cover">
             </div>
         </div>
     </div>

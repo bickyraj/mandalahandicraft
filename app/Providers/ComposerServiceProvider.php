@@ -21,8 +21,9 @@ class ComposerServiceProvider extends ServiceProvider
             $category = new Category();
             $allMenu = $category->getParentCategory();
             $headerMenu = $category->getHeaderMenu();
+            $all_categories = $category->all();
 
-            $view->with(compact('allMenu', 'headerMenu'));
+            $view->with(compact('allMenu', 'headerMenu', 'all_categories'));
         });
 
         view()->composer(['frontend.layouts.header_menu_mobile'], function ($view) {
