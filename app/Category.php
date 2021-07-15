@@ -63,7 +63,7 @@ class Category extends BaseModel
     }
 
     public function getParentCategory() {
-        return Category::whereNull('parent_id')
+        return Category::whereNull('parent_id')->orderBy('priority', 'asc')
             ->pluck('name', 'id');
     }
 
@@ -98,5 +98,10 @@ class Category extends BaseModel
         }
 
         return $categoryIds;
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, 'category_attribute', 'category_id', 'attribute_id')->withTimestamps();
     }
 }

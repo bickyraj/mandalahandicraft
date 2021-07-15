@@ -31,6 +31,14 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin','middleware'=>['auth','a
     Route::get('product/{id}/reviews','ProductController@getReviews')->name('get_reviews');
     Route::delete('review/delete/{id}','ProductController@deleteReview')->name('delete_review');
 
+    Route::get('product/{id}/faqs', 'ProductFaqController@index')->name('admin.productfaq.index');
+    Route::get('product/{id}/create', 'ProductFaqController@create')->name('admin.productfaq.create');
+    Route::post('product/faq/store', 'ProductFaqController@store')->name('admin.productfaq.store');
+    Route::post('product/faq/show', 'ProductFaqController@show')->name('admin.productfaq.show');
+    Route::delete('product/faq/{faq}/destroy', 'ProductFaqController@destroy')->name('admin.productfaq.destroy');
+    Route::get('product/faq/{id}/edit', 'ProductFaqController@edit')->name('admin.productfaq.edit');
+    Route::post('product/faq/{id}/update', 'ProductFaqController@update')->name('admin.productfaq.update');
+
 	// routes only admin can access
 	Route::group(['middleware' => 'role', 'roles' => ['admin']], function () {
 
@@ -40,6 +48,7 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin','middleware'=>['auth','a
 		Route::get('change-approved-status/{id}','UserController@changeApprovedStatus')->name('approved_status');
 		Route::resource('user', 'UserController',['except' => ['edit', 'update']]);//removing edit and update route here for admin middleware so that vendor won't enter here while updating profile
 		Route::resource('category', 'CategoryController');
+		Route::resource('attribute', 'AttributeController');
 		Route::resource('sub-category', 'SubCategoryController',['except'=>'index']);
 		Route::get('subscribers', 'AdminController@subscribers')->name('admin.subscriber');
 		Route::resource('advertisement', 'AdvertisementController');
@@ -85,3 +94,5 @@ Route::get('/system-clear-cache', function () {
     // Artisan::call('storage:link');
     return "Cache is cleared";
 });
+
+Route::get('/category/{id}/attributes', 'Admin\CategoryController@getAttributes')->name('admin.category.attributes');

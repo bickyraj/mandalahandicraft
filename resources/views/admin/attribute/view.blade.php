@@ -12,65 +12,23 @@
         <thead>
         <tr>
           <th width="40">SN.</th>
-          {{-- <th class="text-center">Image</th> --}}
           <th class="text-center">Name</th>
-          <th class="text-center">Show On Menu</th>
-          <th class="text-center">Exclusive</th>
-          <th class="text-center">Priority</th>
           <th width="200" class="text-center">Actions</th>
         </tr>
         </thead>
         <tbody>
-        @forelse($categories as $key=>$category)
+        @forelse($attributes as $key=>$attribute)
           <tr>
             <td>{{ $key+1 }}</td>
-            {{-- <td>
-              <img src="{{$category->image()}}" alt="" style="width: 50px;height: 50px;">
-            </td> --}}
-            <td>
-              @if($category->has_children())
-                <a href="{{ route($routeType.'.show', $category) }}"
-                   title="View Sub Categories Of {{ $category->name }}">
-                  {{ $category->name }} ({{ $category->sub_categories->count() }})
+            <td width="200" class="text-center">
+                <a href="{{ route($routeType.'.show', $attribute) }}"
+                   title="View Sub Categories Of {{ $attribute->name }}">
+                  {{ $attribute->name }}
                   <i class="material-icons" style="font-size:16px;">remove_red_eye</i>
                 </a>
-              @else
-                {{ $category->name }}
-              @endif
-            </td>
-            <td>
-              <div class="checkbox" style="margin-left: auto;margin-right: auto;">
-                <label>
-                  <input type="checkbox"
-                         class="show-on-menu"
-                         name="show_on_menu"
-                         {{ $category->show_on_menu?'checked':'' }}
-                         data-url="{{ route('category.show-on-menu', $category) }}">
-                </label>
-              </div>
-            </td>
-            <td>
-              <div class="checkbox" style="margin-left: auto;margin-right: auto;">
-                <label>
-                  <input type="checkbox"
-                         class="make-exclusive"
-                         name="make_exclusive"
-                         {{ $category->exclusive?'checked':'' }}
-                         data-url="{{ route('category.make-exclusive', $category) }}">
-                </label>
-              </div>
-            </td>
-            <td class="text-center">
-
-              <input type="text"
-
-                     class="control-label category-priority"
-                     style="width:50px;"
-                     data-url="{{ route('category.set-priority', $category) }}"
-                     value="{{ $category->priority }}">
             </td>
             <td class="asdh-edit_and_delete td-actions text-center">
-              @include('extras.edit_delete', ['modal'=>$category, 'add_sub_category'=>true , 'message'=>'You will not be able to recover your data in the future.'])
+              @include('extras.edit_delete', ['modal'=>$attribute, 'add_sub_attribute'=>true , 'message'=>'You will not be able to recover your data in the future.'])
             </td>
           </tr>
         @empty
@@ -84,7 +42,7 @@
   </div>
 
   <div class="text-center">
-    {{ $categories->links() }}
+    {{ $attributes->links() }}
   </div>
 </div>
 
@@ -94,7 +52,7 @@
 @endsection
 
 
-@if($categories->count())
+@if($attributes->count())
   @push('script')
     <script>
       $(document).ready(function () {
@@ -126,13 +84,13 @@
           })
         });
 
-        var $category = $('.category-priority');
+        var $attribute = $('.attribute-priority');
         var initialPriorityValue;
-        $category.on('focus', function () {
+        $attribute.on('focus', function () {
           initialPriorityValue = $(this).val();
 
         });
-        $category.on('blur', function () {
+        $attribute.on('blur', function () {
           if (initialPriorityValue !== $(this).val()) {
             $.ajax({
               url: $(this).data('url'),

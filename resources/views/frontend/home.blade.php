@@ -6,7 +6,7 @@
 
 <section class="py-10 lg:py-30">
     <div class="container py-10">
-        @include('frontend.components.homesectionslider', ['title' => "Best Sellers", 'products' => $featuredProducts])
+        @include('frontend.components.homesectionslider', ['title' => "Best Sellers", 'products' => $popularProducts])
     </div>
 </section>
 
@@ -35,7 +35,7 @@
 
 <section class="py-10 lg:py-30">
     <div class="container py-10">
-        @include('frontend.components.homesectionslider', ['title' => 'Discounts & Offers', 'products' => $featuredProducts])
+        @include('frontend.components.homesectionslider', ['title' => 'Discounts & Offers', 'products' => $saleProducts])
     </div>
 </section>
 

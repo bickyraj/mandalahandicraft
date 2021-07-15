@@ -16,7 +16,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function register()
     {
 
-        view()->composer(['frontend.layouts.header_menu'], function ($view) {
+        view()->composer(['frontend.partials.header'], function ($view) {
 
             $category = new Category();
             $allMenu = $category->getParentCategory();

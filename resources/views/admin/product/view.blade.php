@@ -33,14 +33,14 @@
                 <th width="80">Actions</th>
               </tr>
               </thead>
-             
+
             </table>
           </div>
         </div>
 
 
         <div class="tab-pane" id="vendorProducts">
-          
+
             <div class="table-responsive">
               <table class="table table-shopping" id="vendor_product_table" style="width:100%">
                 <thead>
@@ -54,15 +54,15 @@
                 <th width="200px">Discount</th>
                 <th width="200px">Price</th>
                 <th width="200px">Category</th>
-                
+
               </tr>
                 </thead>
-               
+
               </table>
             </div>
 
-            
-       
+
+
         </div>
       </div>
 
@@ -86,16 +86,16 @@
             <th width="80">Actions</th>
           </tr>
           </thead>
-         
+
         </table>
       </div>
-    
+
   </div>
 
 
   @endif
 
-      
+
     </div>
 
   </div>
@@ -107,7 +107,7 @@ $(document).ready(function(){
      $('#admin_product_table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{{route('product.index')}}',
+        ajax: '{{route("product.index")}}',
         columns: [
             {title:'SN',
                  render: function( data, type, full, meta ) {
@@ -127,9 +127,9 @@ $(document).ready(function(){
             {data: 'discount', name: 'discount'},
             {data: 'user_price', name: 'user_price'},
             {data:'category.name',name:'category.name'},
-            
+
          {data: 'action', name: 'action', orderable: true, searchable: true}
-        
+
 
         ],
             initComplete: function () {

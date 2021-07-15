@@ -21,11 +21,14 @@
             <s class="text-light">$999.99</s>
             <span class="text-lg text-dark">${{ number_format($product->user_price) }}</span>
         </div>
-        <button class="btn btn-secondary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-4 text-white" viewBox="0 0 16 16">
-                @include('frontend.components.bagpath')
-            </svg>
-            Add to bag
-        </button>
+        <form action="{{ route('add_to_cart', $product->slug) }}" method="post">
+            @csrf
+            <button type="submit" class="btn btn-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-4 text-white" viewBox="0 0 16 16">
+                    @include('frontend.components.bagpath')
+                </svg>
+                Add to bag
+            </button>
+        </form>
     </div>
 </div>

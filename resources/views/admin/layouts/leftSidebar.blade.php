@@ -74,7 +74,7 @@
         {{--./notification--}}
 
 
-        
+
 
         {{--user--}}
         <li @if(request()->is('admin/user*')) class="active" @endif>
@@ -104,10 +104,6 @@
         </li>
         {{--./user--}}
 
-
-
-
-
         {{--category--}}
         <li @if(request()->is('admin/category*') || request()->is('admin/sub-category*')) class="active" @endif>
           <a data-toggle="collapse" href="#category">
@@ -134,6 +130,32 @@
         </li>
         {{--./category--}}
 
+        {{--attribute--}}
+        <li @if(request()->is('admin/attribute*')) class="active" @endif>
+          <a data-toggle="collapse" href="#attribute">
+            <i class="material-icons">layers</i>
+            <p>{{ ucfirst('attribute') }}<b class="caret"></b></p>
+          </a>
+          <div class="collapse @if(request()->is('admin/attribute*')) in @endif"
+               id="attribute">
+            <ul class="nav">
+              <li @if(request()->is('admin/attribute')) class="active" @endif>
+                <a href="{{route('attribute.index')}}">
+                  <span class="sidebar-mini">&nbsp;</span>
+                  <span class="sidebar-normal">All {{ ucfirst(str_plural('attribute')) }}</span>
+                </a>
+              </li>
+              <li @if(request()->is('admin/attribute/create')) class="active" @endif>
+                <a href="{{route('attribute.create')}}">
+                  <span class="sidebar-mini">&nbsp;</span>
+                  <span class="sidebar-normal">New {{ ucfirst('attribute') }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        {{--./attribute--}}
+
         {{--color--}}
         <li @if(request()->is('admin/color*')) class="active" @endif>
           <a href="{{ route('color.index') }}">
@@ -152,7 +174,7 @@
           </a>
         </li>
         {{--./brand--}}
-        
+
         <li @if(request()->is('admin/groups*')) class="active" @endif>
           <a data-toggle="collapse" href="#groups">
             <i class="material-icons">list</i>
@@ -337,20 +359,20 @@
 
   @endif
 
-        
-
-      
-
-      
-
-        
-
-        
 
 
-      
 
-     
+
+
+
+
+
+
+
+
+
+
+
 
     </ul>
   </div>

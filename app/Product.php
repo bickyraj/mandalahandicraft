@@ -338,4 +338,8 @@ class Product extends BaseModel
         return $productImage;
     }
 
+    public function faqs()
+    {
+        return $this->hasMany(ProductFaq::class, 'product_id', 'id');
+    }
 }

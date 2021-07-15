@@ -8,7 +8,7 @@
             </ul>
             <ul class="flex">
                 <li class="mr-4"><a href="">Log in</a></li>
-                <li><a href="">Register</a></li>
+                <li><a href="{{route('register')}}">Register</a></li>
             </ul>
         </div>
     </div>{{-- Top --}}
@@ -16,7 +16,7 @@
     {{-- Header --}}
     <div class="container py-4">
         <div class="flex flex-wrap justify-between items-center">
-            <a href="">
+            <a href="/">
                 @include('frontend.components.logo')
             </a>
             <div class="search">
@@ -40,7 +40,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-secondary" viewBox="0 0 16 16">
                             <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
                         </svg>
-                        <div class="flex justify-center items-center w-4 h-4 bg-secondary font-bold text-xs text-primary rounded-md">88</div>
+                        <div class="flex justify-center items-center w-4 h-4 bg-secondary font-bold text-xs text-primary rounded-md">{{ $cartItems->count() }}</div>
                     </button>
                 </div>
                 <div class="user ml-4 relative" x-data="{userDropdownOpen:false}">
@@ -75,24 +75,51 @@
         </button>
         <nav id="nav" :class="{ 'show': mobileNavOpen }" @click.away="mobileNavOpen=false">
             <ul id="main-nav" class="sm sm-simple">
-                <li>
-                    <a href="">Thangka</a>
-                    <ul>
+                @if($allMenu->count())
+                    @foreach($allMenu as $key => $menu)
                         <li>
-                            <a href="">Lorem, ipsum dolor.</a>
-                            <ul>
-                                <li><a href="">Lorem, ipsum.</a></li>
-                                <li><a href="">Quas, non.</a></li>
-                                <li><a href="">Numquam, neque.</a></li>
-                            </ul>
+                            <a href="/">{{ $menu }}</a>
+                            <?php $subCategory = getSubCategory($key); ?>
+                            @if(isset($subCategory) && $subCategory->count())
+                                @foreach($subCategory as $key=>$category)
+                                <ul class="">
+                                    <li><a href="{{ url('category') }}/{{ $category->slug }}">{{ $category->name }}</a>
+                                        @if(isset($category->sub_categories) && ($category->sub_categories->count()))
+                                            <ul class="">
+                                                @foreach($category->sub_categories as $key=>$sub)
+                                                    <li><a href="{{ url('category') }}/{{ $sub->slug }}">{{ $sub->name }}</a>
+                                                        @if(isset($sub->sub_categories) && ($sub->sub_categories->count()))
+                                                            <ul class="">
+
+                                                                @foreach($sub->sub_categories as $key=>$sub)
+                                                                    <li><a href="{{ url('category') }}/{{ $sub->slug }}">{{ $sub->name }}</a>
+                                                                        @if(isset($sub->sub_categories) && ($sub->sub_categories->count()))
+                                                                            <ul class="">
+
+                                                                                @foreach($sub->sub_categories as $key=>$sub)
+                                                                                    <li><a href="{{ url('category') }}/{{ $sub->slug }}">{{ $sub->name }}</a>
+
+                                                                                    </li>
+                                                                                @endforeach
+                                                                            </ul>
+
+                                                                        @endif
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+
+                                        @endif
+                                    </li>
+                                </ul>
+                                @endforeach
+                            @endif
                         </li>
-                        <li><a href="">Saepe, facere excepturi?</a></li>
-                        <li><a href="">Eveniet, saepe expedita.</a></li>
-                        <li><a href="">Quisquam, eum iusto!</a></li>
-                    </ul>
-                </li>
-                <li><a href="">Singing Bowl</a></li>
-                <li><a href="">Mudra</a></li>
+                    @endforeach
+                @endif
             </ul>
         </nav>
     </div>

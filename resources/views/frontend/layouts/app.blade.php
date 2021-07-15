@@ -41,7 +41,6 @@
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.6.1/dist/gsap.min.js"></script>
         <script src="{{ asset('frontend/js/app.js') }}"></script>
-
         @stack('scripts')
     </body>
 </html>
