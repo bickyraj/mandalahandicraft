@@ -18,7 +18,7 @@
             @endfor
         </div>
         <div class="mb-6">
-            <s class="text-light">$999.99</s>
+            <s class="text-light">${{ number_format($product->old_price) }}</s>
             <span class="text-lg text-dark">${{ number_format($product->user_price) }}</span>
         </div>
         <form action="{{ route('add_to_cart', $product->slug) }}" method="post">

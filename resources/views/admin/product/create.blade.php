@@ -208,6 +208,23 @@
                                     <div class="col-md-6">
                                         {{--user price--}}
                                         <div class="form-group label-floating">
+                                            <label class="" for="price">Old Price
+                                                <small>*</small>
+                                            </label>
+                                            <div class="form-line">
+                                                <input type="text"
+                                                       name="old_price"
+                                                       id="old_price"
+                                                       class="form-control"
+                                                       value="{{$edit?$product->old_price:old('old_price')}}"
+                                                       required="true">
+                                            </div>
+                                        </div>
+                                        {{--./user price--}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{--user price--}}
+                                        <div class="form-group label-floating">
                                             <label class="" for="price">User Price
                                                 <small>*</small>
                                             </label>

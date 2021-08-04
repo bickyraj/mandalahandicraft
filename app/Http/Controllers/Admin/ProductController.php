@@ -114,6 +114,7 @@ class ProductController extends BaseController
             'discount'            => $request->discount,
             'discount_type'       => $request->discount_type, // 0 => percentage, 1 => amount
             'user_price'          => $request->user_price,
+            'old_price'          => $request->old_price,
             'whole_sheller_price' => $request->whole_seller_price,
             'description'         => $request->description,
             'short_description'   => $request->short_description,
@@ -225,6 +226,7 @@ class ProductController extends BaseController
             'discount'            => $request->discount,
             'discount_type'       => $request->discount_type, // 0 => percentage, 1 => amount
             'user_price'          => $request->user_price,
+            'old_price'          => $request->old_price,
             'image'               => $image_name,
             'whole_sheller_price'  => $request->whole_seller_price,
             'description'         => $request->description,

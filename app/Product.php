@@ -8,6 +8,8 @@ class Product extends BaseModel
 {
     use SoftDeletes;
 
+    protected $guarded = ['id'];
+
     public function getNameAttribute()
     {
 

@@ -56,12 +56,16 @@
                     <div class="mb-6 font-bold text-3xl text-dark">Rs. {{ number_format($product->user_price) }}</div>
 
                     <h2 class="mb-2 text-dark">Select Quantity</h2>
-                    <div class="flex mb-6">
-                        <button class="flex justify-center items-center w-10 h-10 bg-secondary text-white">-</button>
-                        <span class="flex justify-center items-center w-20 h-10 bg-white">1</span>
-                        <button class="flex justify-center items-center w-10 h-10 bg-secondary text-white">+</button>
-                    </div>
-                    <button class="btn btn-secondary">Add to Cart</button>
+                    <form action="{{ route('add_to_cart', $product->slug) }}" method="post">
+                        @csrf
+                        <div class="flex mb-6">
+                            <button id="decrease-qty" class="flex justify-center items-center w-10 h-10 bg-secondary text-white">-</button>
+                            <input type="hidden" name="quantity" value="1" data-min="1" data-max="{{$product->quantity}}">
+                            <span id="product-quantity" class="flex justify-center items-center w-20 h-10 bg-white">1</span>
+                            <button id="increase-qty" class="flex justify-center items-center w-10 h-10 bg-secondary text-white">+</button>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Add to Cart</button>
+                    </form>
                 </section>
                 <div class="bg-light px-4 py-6">
                     <div class="flex">
@@ -152,8 +156,8 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/drift-zoom@1.4.3/dist/Drift.min.js"></script>
-    <script>
+<script src="https://cdn.jsdelivr.net/npm/drift-zoom@1.4.3/dist/Drift.min.js"></script>
+<script>
         var imageTrigger = document.querySelector('.image-trigger')
         var paneContainer = document.querySelector('.detail')
         const showcaseImagesTriggers = document.querySelectorAll('.showcase-images-nav button')
@@ -202,5 +206,28 @@
     detailSections.forEach(section => {
         obs.observe(section)
     })
-    </script>
+
+    const quantity_input = $("input[name='quantity']");
+    $("#increase-qty").on('click', function(event) {
+        let quantity = quantity_input.val();
+        if (quantity <= quantity_input.data('max')) {
+            quantity = parseInt(quantity) + 1;
+            quantity_input.val(quantity);
+            updateQuantityDiv(quantity);
+        }
+    });
+
+    $("#decrease-qty").on('click', function(event) {
+        let quantity = quantity_input.val();
+        if (quantity > 1) {
+            quantity = parseInt(quantity) - 1;
+            quantity_input.val(quantity);
+            updateQuantityDiv(quantity);
+        }
+    });
+
+    function updateQuantityDiv(quantity) {
+        $("#product-quantity").html(quantity);
+    }
+</script>
 @endpush
