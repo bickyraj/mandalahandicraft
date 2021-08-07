@@ -11,6 +11,8 @@ Route::get('about-us',['as'=>'about','uses'=>'HomeController@aboutUs']);
 /*Cart Routes*/
 Route::post('add-to-cart/{slug}', 'CartController@addToCart')->name('add_to_cart');
 Route::get('cart', 'CartController@cartItems')->name('cart-items');
+Route::get('cart-content', 'CartController@getCartContent')->name('front.cart.content');
+Route::post('cart/item/update', 'CartController@updateProductQuantity')->name('front.cart.item.update');
 Route::get('remove-from-cart/{id}', 'CartController@removeFromCart')->name('remove-from-cart');
 Route::get('clear-cart', 'CartController@destroyCart')->name('clear-cart');
 // Route::post('update-cart', 'CartController@updateCart')->name('update-cart');

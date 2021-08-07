@@ -4,7 +4,7 @@
         <img src="{{ getProductImage($product->id) }}" alt="">
     </a>
     <div class="absolute bg-secondary p-2 text-white" style="top:1rem; left: 0;">
-        10% off
+        {{ $product->discount }}% off
     </div>
     <div class="p-4 text-center">
         <h3 class="mb-4 font-bold text-lg text-dark truncate">
@@ -21,14 +21,11 @@
             <s class="text-light">${{ number_format($product->old_price) }}</s>
             <span class="text-lg text-dark">${{ number_format($product->user_price) }}</span>
         </div>
-        <form action="{{ route('add_to_cart', $product->slug) }}" method="post">
-            @csrf
-            <button type="submit" class="btn btn-secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-4 text-white" viewBox="0 0 16 16">
-                    @include('frontend.components.bagpath')
-                </svg>
-                Add to bag
-            </button>
-        </form>
+        <button data-slug="{{ $product->slug }}" type="submit" class="btn btn-secondary add-to-cart-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-4 text-white" viewBox="0 0 16 16">
+                @include('frontend.components.bagpath')
+            </svg>
+            <span style="margin-right: 5px;">Add to bag</span> <i class="fa fa-circle-o-notch fa-spin spin-loader" style="display: none;"></i>
+        </button>
     </div>
 </div>

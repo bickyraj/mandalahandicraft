@@ -59,10 +59,24 @@ class CartController extends BaseController
         }
 
         if ($request->quantity > $product->quantity) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'data' => [],
+                    'success' => false,
+                    'message' => "We currently do not have enough items in stock."
+                ]);
+            }
             return back()->with('failure_message', 'We currently do not have enough items in stock.');
         }
 
         Cart::add($cart_data);
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => [],
+                'success' => true,
+                'message' => "Product added to cart."
+            ]);
+        }
         return back()->with('success_message', 'Product added to cart.');
     }
 
@@ -188,11 +202,40 @@ class CartController extends BaseController
 
     public function checkout()
     {
-        return view('frontend.cart.checkout', $this->data);
+        $this->data['cartItems'] = Cart::content();
+        return view('frontend.carts.checkout', $this->data);
     }
 
     public function cartItems()
     {
         return view('frontend.carts.index', $this->data);
+    }
+
+    public function getCartContent()
+    {
+        $cart_products = view('frontend.partials.cart_block_products', ['cartItems' => Cart::content()])->render();
+        return response()->json([
+            'data' => [
+                'content' => Cart::content(),
+                'count' => Cart::count(),
+                'unique_count' => Cart::content()->count(),
+                'sub_total' => Cart::subtotal(),
+                'total' => Cart::total(),
+                'tax' => Cart::tax(),
+                'html_products' => $cart_products
+            ],
+            'success' => true,
+            'message' => 'cart content fetched'
+        ]);
+    }
+
+    public function updateProductQuantity(Request $request)
+    {
+        Cart::update($request->rowId, $request->quantity);
+        return response()->json([
+            'data' => [],
+            'success' => true,
+            'message' => 'Cart item updated.'
+        ]);
     }
 }
