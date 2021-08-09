@@ -72,13 +72,3 @@
         </form>
     </section>
 @endsection
-@push('scripts')
-<script>
-    $(function() {
-        let success_message = "{!! session()->get('success_message') !!}";
-        if (success_message) {
-            toastr.success(success_message);
-        }
-    });
-</script>
-@endpush
