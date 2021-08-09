@@ -73,7 +73,7 @@
                 </button>
                 <div class="text-sm text-light">
                     Have an account already?
-                    <a href="{{ route('login') }}" class="text-secondary">
+                    <a href="{{ route('customer_login') }}" class="text-secondary">
                         Go to login.
                     </a>
                 </div>

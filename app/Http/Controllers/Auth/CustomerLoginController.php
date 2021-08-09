@@ -9,6 +9,6 @@ class CustomerLoginController extends Controller
 {
     public function customerLogin()
     {
-    	return view('auth.customer-login');
+    	return view('frontend.auth.login');
     }
 }

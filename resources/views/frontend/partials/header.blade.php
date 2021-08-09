@@ -6,10 +6,12 @@
                 <li class="mr-4"><a href="#">Customer care</a></li>
                 <li class="mr-4"><a href="#">Track my order</a></li>
             </ul>
-            <ul class="flex">
-                <li class="mr-4"><a href="{{ route('login') }}">Log in</a></li>
-                <li><a href="{{route('register')}}">Register</a></li>
-            </ul>
+            @if(!auth()->check())
+                <ul class="flex">
+                    <li class="mr-4"><a href="{{ route('customer_login') }}">Log in</a></li>
+                    <li><a href="{{route('register')}}">Register</a></li>
+                </ul>
+            @endif
         </div>
     </div>{{-- Top --}}
 

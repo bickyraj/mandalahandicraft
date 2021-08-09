@@ -77,7 +77,7 @@
             <button class="btn btn-block bg-pink waves-effect" type="submit">SIGN IN</button>
           </div>
         </div>
-        
+
       </form>
     </div>
   </div>
