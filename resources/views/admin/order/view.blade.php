@@ -25,7 +25,7 @@
       padding       : 10px 15px;
       border-radius : 25px;
     }
-    
+
     .nav-tabs {
     background: darkseagreen;
     border: 0;
@@ -63,16 +63,16 @@
                 <li class="">
                     <a href="#vendor" data-toggle="tab" aria-expanded="true">Vendor Orders</a>
                 </li>
-                                        
+
             </ul>
-            
-            
+
+
             <div class="tab-content">
                 <div class="tab-pane active" id="admin">
-                   
-                    
-           
-                      
+
+
+
+
                   <div class="table-responsive">
                     <table class="table datatable">
                       <thead>
@@ -91,9 +91,9 @@
                             <td>{{$order->order_code}}</td>
                             <td>{{$order->created_at->format('M d, h:i a')}}</td>
                             <td>{{optional($order->user)->name}}</td>
-                            <td>{{$order->user->phone}}</td>
-                            <td>{{$order->user->address}}</td>
-                          
+                            <td>{{$order->shipping->shipping_phone_number}}</td>
+                            <td>{{$order->shipping->shipping_street_address}}</td>
+
                             <td class="asdh-edit_and_delete td-actions">
                               <button type="button"
                                       class="btn btn-warning"
@@ -110,16 +110,16 @@
                             <td colspan="6">No data available</td>
                           </tr>
                         @endforelse
-                      
+
                       </tbody>
                     </table>
                   </div>
-            
+
         </div>
         <!--end of admin orders-->
-                
+
       <div class="tab-pane" id="vendor">
-                    
+
         <div class="table-responsive">
           <table class="table datatable">
             <thead>
@@ -129,7 +129,7 @@
               <th>Vendor Name</th>
               <th>Vendor Email</th>
               <th>Customer Address</th>
-              
+
               <th width="80">Actions</th>
             </tr>
             </thead>
@@ -142,7 +142,7 @@
                   <td>{{optional($order->user)->name}}</td>
                   <td>{{$order->user->phone}}</td>
                   <td>{{$order->user->address}}</td>
-                  
+
                   <td class="asdh-edit_and_delete td-actions">
                     <button type="button"
                             class="btn btn-warning"
@@ -159,8 +159,8 @@
                   <td colspan="6">No data available</td>
                 </tr>
               @endforelse
-              
-           
+
+
             </tbody>
           </table>
         </div>
@@ -191,7 +191,7 @@
              <td>{{optional($order->user)->name}}</td>
              <td>{{$order->user->phone}}</td>
              <td>{{$order->user->address}}</td>
-           
+
              <td class="asdh-edit_and_delete td-actions">
                <button type="button"
                        class="btn btn-warning"
@@ -208,7 +208,7 @@
              <td colspan="6">No data available</td>
            </tr>
          @endforelse
-       
+
        </tbody>
      </table>
    </div>
@@ -223,11 +223,11 @@
 
 
 
-           
-         
-       
 
-     
+
+
+
+
       </div>
     </div>
 
@@ -261,7 +261,7 @@
       }
 
 
-      
+
 
  new Vue({
         el: '#vue-instance',
@@ -269,64 +269,64 @@
         data: {
           products: [],
           shipping:{},
+          shipping_billing: {},
           order_status:['pending','processing','delivered'],
           user_id:0,
-         
-          
         },
 
-        
+
 
         methods: {
 
            getProducts: function (orderId,type) {
-           
+
                this.products = [];
 
-            axios.get('{{ url('admin/order') }}' + '/' + orderId + '/products?type='+type)
+            axios.get('{{ url("admin/order") }}' + '/' + orderId + '/products?type='+type)
                  .then(function (response) {
-                
-                 
+
+
 
                    this.products = response.data.products;
                    console.log(this.products);
 
 
                    this.shipping=response.data.shipping;
-                  
+                   this.shipping_billing=response.data.shipping_billing;
+
                  }.bind(this))
                  .catch(function (reason) {
                    console.log(reason);
                  });
           },
-         
+
 
           changeStatus: function (id,order_id,event) {
-            
-            
-           let url='{{url('admin/order/change-status')}}'+'/'+id;
+
+
+           let url='{{url("admin/order/change-status")}}'+'/'+id;
             showProcessing();
             axios.get(url + "?status=" + event.target.value+'&order_id='+order_id)
                  .then(function (response) {
-                 
+
                    hideProcessing();
                      toastr.success(response.data)
                      // location.reload()
-                
+
                    })
                  .catch(function (reason) {
                    hideProcessing();
-                  
+
                  })
           },
 
           detail(slug)
           {
              let location = '/products/' + slug;
-            window.open(location, "_blank");    
-            
+            window.open(location, "_blank");
+
           }
-         
+
         },
          computed: {
           totalQuantity: function () {
@@ -339,7 +339,7 @@
             // Fixed reduce function which takes in an Array and returns sum
             return this.products.reduce(function (sum, currentValue) {
               console.log(sum);
-              
+
               return sum + currentValue.rate * currentValue.quantity;
             }, 0);
           }
@@ -347,14 +347,14 @@
         mounted(){
           Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
            this.user_id=this.$userId
-           
+
         }
 
-       
+
       });
 
 
-     
+
 
       // $(document).ready(function () {
       //   $('.datatable').dataTable({

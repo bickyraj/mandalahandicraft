@@ -13,22 +13,22 @@ use App\OrderProduct;
 class OrderController extends BaseController
 {
     private $viewPath = 'admin.order';
-    
+
     public function __construct() {
         parent::__construct();
         $this->website['routeType'] = 'order';
 
     }
 
-   
+
     public function index()
     {
-      
+
         if (auth()->user()->hasRole('admin')) {
            $vendor_orders = Order::with('user')->whereHas('products.product', function ($query) {
                                             $query->where('vendor_id', '!=',auth()->id());
                                 })->latest()->get();
-           
+
             // $vendor_orders=Order::with('user')->latest()->get();
 
            // $this->data['vendor_orders']=$vendor_orders->filter(function ($item) {
@@ -41,7 +41,7 @@ class OrderController extends BaseController
            //                              })->values();
            // $this->data['vendor_delivered_orders']=$vendor_orders->filter(function ($item) {
            //                                  return $item->status=='delivered';
-           //                              })->values();     
+           //                              })->values();
 
 
            $admin_orders= Order::with('user')
@@ -82,16 +82,16 @@ class OrderController extends BaseController
     }
 
 
-    
+
 
     public function changeStatus($id) {
 
-        
+
         $order=Order::find(request()->get('order_id'));
         $status = strtolower(request()->status);
-       
-        
-       
+
+
+
         $email = $order->user->email;
 
          if($order->products()
@@ -100,7 +100,7 @@ class OrderController extends BaseController
          {
              // if($status == 'processing') {
              $order_product=OrderProduct::with(['product:id,title,slug','size','color'])->where('id',$id)->first();
-            
+
                  Mail::to($email)->send(new OrderProcessing($order_product));
              // } else if ($status == 'delivered') {
 
@@ -114,16 +114,16 @@ class OrderController extends BaseController
          {
             return response()->json(['status'=>false]);
          }
-        
-       
 
-        
+
+
+
     }
 
 
     public function getProducts(Order $order) {
         $type=request()->get('type');
-        $products=$order->products()->with(['product:id,title,slug','color:id,name','size:id,size'])->get();
+        $products=$order->products()->with(['product:id,title,slug'])->get();
         $products=$products->filter(function ($item) use ($type) {
             if($type=='owner')
             {
@@ -140,13 +140,13 @@ class OrderController extends BaseController
 
           return $item;
         });
-        return response()->json(['products'=>$products,'shipping'=>$order->shipping_address]);
+        return response()->json(['products'=>$products,'shipping'=>$order->shipping_address, 'shipping_billing' => $order->shipping]);
         // return response()->json($order->products()->with('product:id,title,slug')->get())->withHeaders([
         //     'Cache-Control' => 'public, max-age=604800', // caches for one week
         // ]);
     }
 
 
-   
-   
+
+
 }

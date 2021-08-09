@@ -25,11 +25,7 @@
                 <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Size</th>
-                  <th>Color</th>
-                  
                   <th class="text-center">Quantity</th>
-               
                   <th class="text-right">Price</th>
                   <th class="text-right">Total</th>
                   <th class="text-right">Status</th>
@@ -38,35 +34,21 @@
                 <tbody>
                 <tr v-for="product in products" :class="product.id">
                   <td><a @click.prevent="detail(product.product.slug)" href="">@{{product.product.title}}</a></td>
-                  <td v-if="product.size">@{{product.size.size}}</td>
-                  <td v-else>-</td>
-                  <td v-if="product.color">@{{product.color.name}}</td>
-                  <td v-else>-</td>
-                  <td class="text-center"
-                      v-text="product.quantity"></td>
-                  <td class="text-right"
-                      v-text="product.rate"></td>
-                  <td class="text-right"
-                      v-text="product.quantity*product.rate"></td>
+                  <td class="text-center" v-text="product.quantity"></td>
+                  <td class="text-right" v-text="product.rate"></td>
+                  <td class="text-right" v-text="product.quantity*product.rate"></td>
                  <td v-if="$userId==product.vendor_id">
-                   <select  class="form-control" 
-                           id="order-status"
-                           @change="changeStatus(product.id,product.order_id,$event)" >
-                    
+                   <select  class="form-control" id="order-status" @change="changeStatus(product.id,product.order_id,$event)" >
                        <option  v-for="status in order_status" :selected="status ==product.status">@{{status.toUpperCase()}}</option>
-                     
                    </select>
                  </td>
 
-                 <td v-else>
-                  <select  class="form-control" 
-                          id="order-status"
-                          @change="changeStatus(product.id,product.order_id,$event)" disabled="true">
-                   
-                      <option  v-for="status in order_status" :selected="status ==product.status">@{{status.toUpperCase()}}</option>
-                    
-                  </select>
-                   
+                 <td style="text-align: right;" v-else>
+                     <div style="display: inline-table;">
+                         <select  class="form-control" id="order-status" @change="changeStatus(product.id,product.order_id,$event)" disabled="true">
+                             <option  v-for="status in order_status" :selected="status ==product.status">@{{status.toUpperCase()}}</option>
+                         </select>
+                     </div>
                  </td>
                 </tr>
                 </tbody>
@@ -75,14 +57,10 @@
                   <th>Total</th>
                   <th></th>
                   <th></th>
-                
-                  <th class="text-center"
-                      v-text="totalQuantity"></th>
-                  <th class="text-right"></th>
-                  <th class="text-right"
-                      v-text="totalPrice">
-                  </th>
-                  <th></th>
+
+                  {{-- <th class="text-center" v-text="totalQuantity"></th> --}}
+                  {{-- <th class="text-right"></th> --}}
+                  <th class="text-right" v-text="totalPrice"></th>
                 </tr>
                 </tfoot>
               </table>
@@ -91,24 +69,34 @@
 
               <table class="table table-striped">
                 <thead>
-                  <th>First Name</th>
-                  <th>Last Name</th>
+                  <th>Name</th>
                   <th>Contact Number</th>
                   <th>Address</th>
-                  <th>Message</th>
+                  {{-- <th>Message</th> --}}
                 </thead>
                 <tbody>
-                  <td v-text="shipping.first_name"></td>
-                  <td v-text="shipping.last_name"></td>
-                  <td v-text="shipping.contact_number"></td>
-                  <td v-text="shipping.address"></td>
-                  <td v-text="shipping.message"></td>
-                  
-
+                  <td v-text="shipping_billing.shipping_name"></td>
+                  <td v-text="shipping_billing.shipping_phone_number"></td>
+                  <td v-text="shipping_billing.shipping_street_address"></td>
+                  {{-- <td v-text="shipping_billing.message"></td> --}}
                 </tbody>
-                
+              </table>
 
-
+              <hr>
+              <h4>Billing Info:</h4>
+              <table class="table table-striped">
+                <thead>
+                  <th>Name</th>
+                  <th>Contact Number</th>
+                  <th>Address</th>
+                  {{-- <th>Message</th> --}}
+                </thead>
+                <tbody>
+                  <td v-text="shipping_billing.billing_name"></td>
+                  <td v-text="shipping_billing.billing_phone_number"></td>
+                  <td v-text="shipping_billing.billing_street_address"></td>
+                  {{-- <td v-text="shipping_billing.message"></td> --}}
+                </tbody>
               </table>
             </div>
           </div>

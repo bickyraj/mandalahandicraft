@@ -31,11 +31,8 @@ class Order extends Model
         return $this->hasOne(Shipping::class,'order_id');
     }
 
-
-
-   
-
-
-
-    
+    public function shipping()
+    {
+        return $this->hasOne(Shipping::class, 'order_id');
+    }
 }
