@@ -8,6 +8,7 @@
     <title>Login</title>
 
     <link rel="stylesheet" href="{{ asset('frontend/css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -68,7 +69,7 @@
                             d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                             clip-rule="evenodd" />
                     </svg>
-                    Sign in
+                    Register
                 </button>
                 <div class="text-sm text-light">
                     Have an account already?
@@ -82,6 +83,8 @@
             </form>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @push('script')
     <script type="text/javascript">
         $(function(){
@@ -98,6 +101,19 @@
 
                 }
             });
+        });
+    </script>
+    <script>
+        $(function() {
+            let success_message = "{!! session()->get('success_message') !!}";
+            let error_message = "{!! session()->get('error_message') !!}";
+            if (success_message) {
+                toastr.success(success_message);
+            }
+
+            if (error_message) {
+                toastr.error(error_message);
+            }
         });
     </script>
     @endpush
