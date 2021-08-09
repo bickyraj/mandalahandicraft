@@ -1,6 +1,6 @@
 <div class="cart" x-cloak x-show="cartDrawerOpen">
-    <div class="cart-overlay fixed" style="top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6)" @click="cartDrawerOpen=false">
-        <div class="cart-drawer absolute bg-white" style="top:0;right:0;width:360px;height:100%" @click.stop="">
+    <div class="cart-overlay fixed" style="top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6); z-index: 9999;" @click="cartDrawerOpen=false">
+        <div class="cart-drawer absolute bg-white" style="top:0;right:0;width:360px;height:100%;" @click.stop="">
             <div id="cart-block" style="display: {{ $cartCount? '': 'none' }};">
                 <div class="flex items-center p-4 border-bottom-light">
                     <button class="mr-4" @click="cartDrawerOpen=false">

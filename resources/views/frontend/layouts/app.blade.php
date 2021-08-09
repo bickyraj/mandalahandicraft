@@ -125,5 +125,18 @@
                 });
             });
         </script>
+        <script>
+            $(function() {
+                let success_message = "{!! session()->get('success_message') !!}";
+                let error_message = "{!! session()->get('error_message') !!}";
+                if (success_message) {
+                    toastr.success(success_message);
+                }
+
+                if (error_message) {
+                    toastr.error(error_message);
+                }
+            });
+        </script>
     </body>
 </html>

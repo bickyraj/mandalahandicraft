@@ -114,8 +114,10 @@ class PaymentController extends BaseController
              // Mail::to(auth()->user()->email)->send(new OrderProcessing($order));
             Cart::destroy();
             //  return $this->handle($request, $this->parseClassFromPaymentGatewayName());
+            session()->flash('success_message', 'Your order has been placed successfully');
         } catch (\Throwable $th) {
             \Log::info($th->getMessage());
+            session()->flash('error_message', 'Something went wrong. Please try again.');
         }
 
         return redirect()->route('home');
@@ -263,8 +265,4 @@ class PaymentController extends BaseController
 
         return 'ORD' . sprintf('%05d', intval($number) + 1);
     }
-
-
-
-
 }
