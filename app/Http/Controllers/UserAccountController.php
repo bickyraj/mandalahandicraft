@@ -110,12 +110,7 @@ class UserAccountController extends BaseController
 			{
 				return response()->json(['status'=>false]);
 			}
-
-
-
-
 	}
-
 
 	public function storeReview(Request $request)
 	{
@@ -136,7 +131,11 @@ class UserAccountController extends BaseController
 		);
 
 		return back()->with('success_message', 'Your review has been submitted.');
-
 	}
 
+    public function reviews()
+    {
+        $reviews = Review::latest()->get();
+        return view('frontend.products.reviews', compact('reviews'));
+    }
 }

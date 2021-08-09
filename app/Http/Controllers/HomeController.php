@@ -10,6 +10,7 @@ use App\Product;
 use App\Category;
 use App\Brand;
 use App\Faq;
+use App\Review;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use App\User;
@@ -44,6 +45,7 @@ class HomeController extends BaseController
         $this->data['saleProducts'] = $product->getSaleProducts();
         $this->data['newProducts'] = $product->getNewProducts();
         $this->data['allProducts'] = $product->getAllProducts();
+        $this->data['reviews'] = Review::latest()->limit(2)->get();
         return view('frontend.home', $this->data);
     }
 

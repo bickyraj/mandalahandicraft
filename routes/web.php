@@ -29,6 +29,9 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin','middleware'=>['auth','a
     Route::resource('product', 'ProductController');
     Route::resource('order', 'OrderController', ['only' => ['index']]);
     Route::get('product/{id}/reviews','ProductController@getReviews')->name('get_reviews');
+    Route::get('product/{id}/reviews/create','ProductController@createProductReview')->name('admin.product.review.create');
+    Route::post('product/reviews','ProductController@storeProductReviews')->name('admin.product.review.store');
+    Route::put('product/reviews','ProductController@updateProductReviews')->name('admin.product.review.update');
     Route::delete('review/delete/{id}','ProductController@deleteReview')->name('delete_review');
 
     Route::get('product/{id}/faqs', 'ProductFaqController@index')->name('admin.productfaq.index');

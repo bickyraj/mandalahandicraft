@@ -11,11 +11,13 @@ use App\Product;
 use App\Category;
 use App\Brand;
 use App\Group;
-use App\Image;
 use App\Color;
 use App\ColorProductImage;
 use Illuminate\Support\Facades\DB;
 use App\Review;
+use Intervention\Image\Facades\Image;
+use App\Services\ImageUpload\Strategy\UploadWithAspectRatio;
+use App\Services\ReviewImageUploader;
 
 class ProductController extends BaseController
 {
@@ -404,5 +406,80 @@ class ProductController extends BaseController
         if ($review->delete()) {
             return back()->with('success_message', 'Review successfully deleted.');
         }
+    }
+
+    public function storeProductReviews(Request $request)
+    {
+        try {
+            $image_name = null;
+            $image_path_from_public='reviews';
+            $review = new Review();
+            $review->user_id = auth()->user()->id;
+            $review->name = $request->name;
+            $review->product_id = $request->product_id;
+            $review->title = $request->title;
+            $review->country = $request->country;
+            $review->rating = $request->rating;
+            $review->review = $request->review;
+            if ($request->hasFile('image')) {
+
+                $image = $request->file('image');
+
+                $uploader = new ReviewImageUploader(new UploadWithAspectRatio());
+
+                $data['image'] = $uploader->saveOriginalImage($image);
+
+                $this->cropAndSaveImage(
+                    $uploader,
+                    $data['image'],
+                    $request->x1,
+                    $request->y1,
+                    $request->w,
+                    $request->h
+                );
+                $image_name = $data['image'];
+
+            } else if ( ! is_null($request->file('image'))) {
+                $image_name = upload_image($request->file('image'), $this->image_prefix,$image_path_from_public);
+                $this->fitImage(1920,850,$image_name,$image_path_from_public,$image_path_from_public.'/modified');
+                $this->fitImage(480,578,$image_name,$image_path_from_public,$image_path_from_public.'/mobile');
+            }
+
+            $review->image_name = $image_name;
+            $review->save();
+            session()->flash('success_message', 'Saved successfully.');
+
+        } catch (\Throwable $th) {
+            session()->flash('error_message', 'Something went wrong. Please try again.');
+            \Log::info($th->getMessage());
+            return redirect()->back();
+        }
+
+        return redirect()->route('get_reviews', $request->product_id);
+    }
+
+    public function updateProductReviews(Request $request)
+    {
+
+    }
+
+    public function createProductReview($productId)
+    {
+        $this->data['edit'] = false;
+        $this->data['product'] = Product::find($productId);
+        return view('admin.product.review_create', $this->data);
+    }
+
+    private function cropAndSaveImage($uploader, $filename, $posX1, $posY1, $width, $height)
+    {
+        $imgPath = $uploader->getFullImagePath($filename);
+
+        $fullImage = Image::make($imgPath);
+
+        $cropDestPath = $uploader->getModifiedImagePath($filename);
+
+        $uploader->cropAndSaveImage($fullImage, $cropDestPath, $posX1, $posY1, $width, $height);
+
+        $uploader->cropAndSaveImageMobile($fullImage, $filename);
     }
 }

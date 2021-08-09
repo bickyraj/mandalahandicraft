@@ -8,6 +8,10 @@
     <div class="card-header card-header-text" data-background-color="green">
       <h4 class="card-title">All <b>Reviews of {{ucwords($product->title)}}</b></h4>
     </div>
+    {{--create new--}}
+    <a href="{{ route('admin.product.review.create', $product->id) }}" class="btn btn-success btn-round btn-xs create-new">
+      <i class="material-icons">add_circle_outline</i> New Review
+    </a>
 
     <div class="card-content">
       <div class="table-responsive">
@@ -21,7 +25,7 @@
             <th>Actions</th>
           </tr>
           </thead>
-          
+
         </table>
       </div>
     </div>
@@ -31,7 +35,7 @@
 
   @push('script')
     <script>
-     
+
       $('#bsb-reviews-table').DataTable({
          processing: true,
          serverSide: true,
@@ -47,10 +51,6 @@
             {data:'rating',name:'rating'},
             {data:'review',name:'review'},
             {data:'action',name:'action'},
-
-
-
-
          ],
          order:[[1,'desc']],
              initComplete: function () {

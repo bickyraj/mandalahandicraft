@@ -39,6 +39,9 @@ Route::post('account/update',['as'=>'account.update','uses'=>'UserAccountControl
 Route::get('add-to-wish/{productId}', ['as'=>'add.wish','uses'=>'UserAccountController@addToWishList']);
 Route::post('review', ['as'=>'review.store','uses'=>'UserAccountController@storeReview']);
 });
+Route::get('reviews', 'UserAccountController@reviews')->name('front.reviews');
+
+
 
 // social login starts
 Route::get('login/facebook', 'SocialLoginController@redirectToFacebook')->name('facebookLogin');
