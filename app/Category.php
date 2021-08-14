@@ -59,12 +59,12 @@ class Category extends BaseModel
     public function getHeaderMenu() {
        return Category::where('show_on_menu', 1)
            ->whereNull('parent_id')
-           ->pluck('name', 'id');
+           ->pluck('name', 'id', 'slug');
     }
 
     public function getParentCategory() {
         return Category::whereNull('parent_id')->orderBy('priority', 'asc')
-            ->pluck('name', 'id');
+            ->select('name', 'id', 'slug')->get();
     }
 
     public function children()

@@ -40,6 +40,7 @@ Route::get('add-to-wish/{productId}', ['as'=>'add.wish','uses'=>'UserAccountCont
 Route::post('review', ['as'=>'review.store','uses'=>'UserAccountController@storeReview']);
 });
 Route::get('reviews', 'UserAccountController@reviews')->name('front.reviews');
+Route::get('category/{slug}', 'CategoryController@getCategoryProducts')->name('front.category.index');
 
 
 

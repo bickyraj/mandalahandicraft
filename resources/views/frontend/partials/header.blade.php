@@ -89,7 +89,7 @@
                 @if($allMenu->count())
                     @foreach($allMenu as $key => $menu)
                         <li>
-                            <a href="/">{{ $menu }}</a>
+                            <a href="{{ route('front.category.index', $menu->slug) }}">{{ $menu->name }}</a>
                             <?php $subCategory = getSubCategory($key); ?>
                             @if(isset($subCategory) && $subCategory->count())
                                 @foreach($subCategory as $key=>$category)
