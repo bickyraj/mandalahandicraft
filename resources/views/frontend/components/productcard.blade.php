@@ -3,9 +3,11 @@
     <a href="{{ route('frontend.products.detail', $product->slug) }}" class="block product-card-image">
         <img src="{{ getProductImage($product->id) }}" alt="">
     </a>
+    @if ($product->discount)
     <div class="absolute bg-secondary p-2 text-white" style="top:1rem; left: 0;">
-        {{ $product->discount }}% off
+            {{ $product->discount }}% off
     </div>
+    @endif
     <div class="p-4 text-center">
         <h3 class="mb-4 font-bold text-lg text-dark truncate">
             <a href="{{ route('frontend.products.detail', $product->slug) }}">{{ $product->title }}</a>
@@ -18,7 +20,9 @@
             @endfor
         </div>
         <div class="mb-6">
+            @if ($product->old_price)
             <s class="text-light">${{ number_format($product->old_price) }}</s>
+            @endif
             <span class="text-lg text-dark">${{ number_format($product->user_price) }}</span>
         </div>
         <button data-slug="{{ $product->slug }}" type="submit" class="btn btn-secondary add-to-cart-btn">

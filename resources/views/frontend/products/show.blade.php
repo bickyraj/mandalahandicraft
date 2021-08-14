@@ -209,6 +209,7 @@
 
     const quantity_input = $("input[name='quantity']");
     $("#increase-qty").on('click', function(event) {
+        event.preventDefault();
         let quantity = quantity_input.val();
         if (quantity <= quantity_input.data('max')) {
             quantity = parseInt(quantity) + 1;
@@ -218,6 +219,7 @@
     });
 
     $("#decrease-qty").on('click', function(event) {
+        event.preventDefault();
         let quantity = quantity_input.val();
         if (quantity > 1) {
             quantity = parseInt(quantity) - 1;
