@@ -47,7 +47,7 @@
                         <div class="col-span-4 p-2 font-bold text-right">Delivery Fee</div>
                         <div class="p-2 font-bold">Not estimated</div>
                     </div>
-                    <div class="bg-light p-10">
+                    {{-- <div class="bg-light p-10">
                         <div class="mb-4">
                             <label for="country" class="block mb-2 text-primary">Country</label>
                             <input type="text" id="country" class="border-light px-6 py-4 w-full"
@@ -64,7 +64,7 @@
                                 placeholder="Postal Code" autocomplete="address-level2">
                         </div>
                         <button class="btn btn-secondary">Estimate Shipping & Taxes</button>
-                    </div>
+                    </div> --}}
                 </div>
                 <a href="{{ route('checkout') }}" class="btn btn-secondary">Proceed to Checkout</a>
                 <button type="submit"  class="btn btn-secondary" style="display: inline-block; background-color: #afafaf;"><i class="fa fa-update"></i><span>update cart</span></button>
