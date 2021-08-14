@@ -247,6 +247,15 @@
 
   @if(auth()->user()->hasRole('admin'))
 
+  {{--pages--}}
+  <li @if(request()->is('admin/pages*')) class="active" @endif>
+    <a href="{{ route('admin.pages.index') }}">
+     <i class="fa fa-question-circle" aria-hidden="true"></i>
+      <p>Pages</p>
+    </a>
+  </li>
+  {{--./pages--}}
+
   {{--news--}}
   <li @if(request()->is('admin/news*')) class="active" @endif>
     <a data-toggle="collapse" href="#news">

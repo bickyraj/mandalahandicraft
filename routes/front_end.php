@@ -56,6 +56,9 @@ Route::get('a-logout', 'SocialLoginController@logout')->name('sLogout');
 Route::get('category/{category_slug?}', 'HomeController@categoryPage')->name('frontend.category-page');
 Route::post('load-category/{limit?}/{category_slug?}', 'HomeController@loadCategory')->name('frontend.load-category');
 
+Route::post('subscribe', 'HomeController@subscribe')->name('frontend.subscribe');
+
+
 // vendor
 Route::resource('vendor', 'VendorController');
 Route::get('vendor-product/{vendor}/{vendorSlugId}/{categoryName?}','VendorController@vendorProduct')

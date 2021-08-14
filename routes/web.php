@@ -42,6 +42,14 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin','middleware'=>['auth','a
     Route::get('product/faq/{id}/edit', 'ProductFaqController@edit')->name('admin.productfaq.edit');
     Route::post('product/faq/{id}/update', 'ProductFaqController@update')->name('admin.productfaq.update');
 
+    Route::get('pages', 'PageController@index')->name('admin.pages.index');
+    Route::get('pages/create', 'PageController@create')->name('admin.pages.create');
+    Route::post('pages/store', 'PageController@store')->name('admin.pages.store');
+    Route::post('pages/show', 'PageController@show')->name('admin.pages.show');
+    Route::delete('pages/{id}/destroy', 'PageController@destroy')->name('admin.pages.destroy');
+    Route::get('pages/{id}/edit', 'PageController@edit')->name('admin.pages.edit');
+    Route::put('pages/{id}/update', 'PageController@update')->name('admin.pages.update');
+
 	// routes only admin can access
 	Route::group(['middleware' => 'role', 'roles' => ['admin']], function () {
 

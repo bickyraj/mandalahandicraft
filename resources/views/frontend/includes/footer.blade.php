@@ -6,9 +6,9 @@
                 <p class="text-lg" >
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae mollitia architecto doloremque at adipisci ex enim veniam ipsam quo dolore sed magnam libero accusamus temporibus pariatur magni quibusdam, deleniti praesentium quaerat!
                 </p>
-                <form action="">
+                <form action="{{ route('frontend.subscribe') }}">
                     <div class="mb-10 lg:grid grid-cols-3 gap-4">
-                        <input type="text" class="mb-4 px-8 py-4 text-xl" placeholder="Your email address">
+                        <input type="text" name="email" class="mb-4 px-8 py-4 text-xl" placeholder="Your email address">
                         <div>
                             <button type="submit" class="bg-secondary px-8 py-4 text-xl">Subscribe</button>
                         </div>

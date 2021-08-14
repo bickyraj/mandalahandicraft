@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use App\User;
 use App\Role;
+use App\Subscriber;
 
 class HomeController extends BaseController
 {
@@ -331,15 +332,22 @@ class HomeController extends BaseController
 
     }
 
-
-
     public function aboutUs()
     {
         return view('frontend.about',$this->data);
     }
 
+    public function subscribe(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|unique:subscribers,email'
+        ]);
 
+        $subscriber = new Subscriber();
+        $subscriber->email = $request->email;
+        $subscriber->save();
 
-
-
+        session()->flash('success_message', "You've been subscribed.");
+        return redirect()->back();
+    }
 }

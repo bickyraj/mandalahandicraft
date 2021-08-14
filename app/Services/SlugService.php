@@ -5,6 +5,7 @@ namespace App\Services;
 class SlugService
 {
     protected static $slug;
+
     public static function generate($model, $name)
     {
         $obj = 'App\\'. $model;
